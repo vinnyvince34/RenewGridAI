@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.renewgridai.databinding.DashboardBinding;
 import com.example.renewgridai.databinding.FragmentFirstBinding;
+import com.example.renewgridai.helper.DataCaller;
 
 public class DashboardFragment extends Fragment {
     private DashboardBinding binding;
@@ -28,6 +29,8 @@ public class DashboardFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        DataCaller dataCaller = new DataCaller();
+        dataCaller.PrintTest();
     }
 
     @Override
