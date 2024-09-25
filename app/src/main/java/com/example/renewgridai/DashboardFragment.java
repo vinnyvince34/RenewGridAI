@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,12 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.mapInitializer();
+
+        Button showBottomSheetButton = view.findViewById(R.id.analytic_button);
+        showBottomSheetButton.setOnClickListener(v -> {
+            MyBottomSheetDialog bottomSheetDialog = new MyBottomSheetDialog();
+            bottomSheetDialog.show(getActivity().getSupportFragmentManager(), bottomSheetDialog.getTag());
+        });
     }
 
     private void mapInitializer() {
