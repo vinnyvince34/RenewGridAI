@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Message the developer", Snackbar.LENGTH_LONG)
                         .setAnchorView(R.id.fab)
                         .setAction("Action", null).show();
             }
@@ -55,16 +55,6 @@ public class MainActivity extends AppCompatActivity {
             result -> {
                 Boolean locationFineGranted = result.get(android.Manifest.permission.ACCESS_FINE_LOCATION);
                 Boolean locationCoarseGranted = result.get(Manifest.permission.ACCESS_COARSE_LOCATION);
-
-                if (locationFineGranted != null && locationFineGranted) {
-                    // Location permission granted
-                    Toast.makeText(MainActivity.this, "Fine Location permission granted", Toast.LENGTH_SHORT).show();
-                }
-
-                if (locationCoarseGranted != null && locationCoarseGranted) {
-                    // Camera permission granted
-                    Toast.makeText(MainActivity.this, "Coarse Location permission granted", Toast.LENGTH_SHORT).show();
-                }
 
                 if (!locationFineGranted || !locationCoarseGranted) {
                     // Handle the case where permission is denied
@@ -94,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(MainActivity.this, "Setting implementation", Toast.LENGTH_SHORT).show();
             return true;
         }
 
