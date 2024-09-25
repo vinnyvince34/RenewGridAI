@@ -1,9 +1,12 @@
 package com.example.renewgridai;
 
+import android.Manifest;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
@@ -17,11 +20,13 @@ import com.example.renewgridai.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    private ActivityResultLauncher<String[]> requestMultiplePermissionsLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,33 @@ public class MainActivity extends AppCompatActivity {
                         .setAnchorView(R.id.fab)
                         .setAction("Action", null).show();
             }
+        });
+
+        requestMultiplePermissionsLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestMultiplePermissions(),
+            result -> {
+                Boolean locationFineGranted = result.get(android.Manifest.permission.ACCESS_FINE_LOCATION);
+                Boolean locationCoarseGranted = result.get(Manifest.permission.ACCESS_COARSE_LOCATION);
+
+                if (locationFineGranted != null && locationFineGranted) {
+                    // Location permission granted
+                    Toast.makeText(MainActivity.this, "Fine Location permission granted", Toast.LENGTH_SHORT).show();
+                }
+
+                if (locationCoarseGranted != null && locationCoarseGranted) {
+                    // Camera permission granted
+                    Toast.makeText(MainActivity.this, "Coarse Location permission granted", Toast.LENGTH_SHORT).show();
+                }
+
+                if (!locationFineGranted || !locationCoarseGranted) {
+                    // Handle the case where permission is denied
+                    Toast.makeText(MainActivity.this, "Some permissions denied", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        requestMultiplePermissionsLauncher.launch(new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
         });
     }
 

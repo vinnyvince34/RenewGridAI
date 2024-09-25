@@ -105,7 +105,7 @@ public class WeatherData {
         this.daily = daily;
     }
 
-    class HourlyUnits {
+    public class HourlyUnits {
         private String time;
         @SerializedName("relative_humidity_2m")
         private String relativeHumidity2m;
@@ -155,7 +155,7 @@ public class WeatherData {
         }
     }
 
-    class Hourly {
+    public class Hourly {
         private List<String> time;
         @SerializedName("relative_humidity_2m")
         private List<Double> relativeHumidity2m;
@@ -225,7 +225,7 @@ public class WeatherData {
         }
     }
 
-    class DailyUnits {
+    public class DailyUnits {
         private String time;
         @SerializedName("uv_index_max")
         private String uvIndexMax;
@@ -257,7 +257,7 @@ public class WeatherData {
         }
     }
 
-    class Daily {
+    public class Daily {
         private List<String> time;
         @SerializedName("uv_index_max")
         private List<Double> uvIndexMax;
