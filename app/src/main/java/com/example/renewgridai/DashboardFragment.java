@@ -21,13 +21,11 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.renewgridai.databinding.DashboardBinding;
 import com.example.renewgridai.helper.DataCaller;
 import com.example.renewgridai.helper.WeatherCallback;
 import com.example.renewgridai.model.WeatherData;
-import com.example.renewgridai.model.WeatherDataViewModel;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -49,7 +47,6 @@ public class DashboardFragment extends Fragment {
     private IMapController mapController = null;
     private  boolean hasInitialized = false;
     private boolean isFetchingWeatherData = false;
-    private WeatherDataViewModel weatherViewModel;
 
     @Override
     public View onCreateView(
@@ -62,15 +59,6 @@ public class DashboardFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        weatherViewModel = new ViewModelProvider(this).get(WeatherDataViewModel.class);
-        weatherViewModel.getWeatherData().observe(getViewLifecycleOwner(), weatherData -> {
-            // Update UI with the weather data
-            if (weatherData != null) {
-                Log.d("MainActivity", "Weather data: " + weatherData.toString());
-                weatherDataBinding(weatherData);
-            }
-        });
-
         this.mapInitializer();
     }
 
@@ -120,8 +108,20 @@ public class DashboardFragment extends Fragment {
                     return false;
                 }
 
-                //final WeatherData[] response = {new WeatherData()};
-                //weatherViewModel.fetchWeatherData(latitude, longitude);
+                final WeatherData[] response = {new WeatherData()};
+                DataCaller dataCaller = new DataCaller();
+                dataCaller.getWeatherData(latitude, longitude, new WeatherCallback() {
+                    @Override
+                    public void onSuccess(WeatherData weatherData) {
+                        Log.d(TAG, "onSuccess: " + weatherData);
+                        weatherDataBinding(weatherData);
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e(TAG, "onFailure: " + errorMessage );
+                    }
+                });
                 return false;
             }
 
@@ -133,13 +133,13 @@ public class DashboardFragment extends Fragment {
     }
 
     private void weatherDataBinding(WeatherData weatherData) {
+        TextView coordinateTv = (TextView) binding.countryData;
+        coordinateTv.setText(latitude + ", " +longitude);
+
         if (weatherData != null &&
-                weatherData.getHourlyUnits() != null &&
                 weatherData.getHourly() != null &&
-                weatherData.getDaily() != null &&
-                weatherData.getDailyUnits() != null)
+                weatherData.getDaily() != null)
         {
-            TextView coordinateTv = (TextView) binding.countryData;
             TextView humidityTv = (TextView) binding.humidityData;
             TextView solarIrradianceTv = (TextView) binding.solarRadianceData;
             TextView windDirectionTv = (TextView) binding.windDirectionData;
@@ -147,15 +147,16 @@ public class DashboardFragment extends Fragment {
             TextView sunPathTv = (TextView) binding.sunpathData;
             TextView cloudCoverageTv = (TextView) binding.cloudCoverageData;
             TextView daylightHourTv = (TextView) binding.daylightHourData;
+            TextView temperatureTv = (TextView) binding.temperatureData;
 
-            coordinateTv.setText(latitude + ", " +longitude);
-            humidityTv.setText(weatherData.getHourlyUnits().getRelativeHumidity2m());
+            humidityTv.setText(weatherData.getHourly().getRelativeHumidity2m().get(0).toString());
             solarIrradianceTv.setText(weatherData.getDaily().getUvIndexMax().get(0).toString());
             windDirectionTv.setText((weatherData.getHourly().getWindDirection180m().get(0)));
             windSpeedTv.setText(weatherData.getHourly().getWindSpeed180m().get(0).toString());
             sunPathTv.setText(weatherData.getDaily().getUvIndexClearSkyMax().get(0).toString());
             cloudCoverageTv.setText(weatherData.getHourly().getVisibility().get(0).toString());
-            daylightHourTv.setText(weatherData.getDaily().getTime().get(0));
+            daylightHourTv.setText(weatherData.getDaily().getDaylightDuration().get(0).toString());
+            temperatureTv.setText(weatherData.getHourly().getTemperature180m().get(0).toString());
         }
     }
 

@@ -36,7 +36,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20pt"
+        android:layout_marginHorizontal="40pt"
         android:layout_marginTop="10pt"
         app:layout_constraintTop_toBottomOf="@id/country_layout">
         <LinearLayout
@@ -104,8 +104,9 @@
         </LinearLayout>
         <LinearLayout
             app:layout_constraintTop_toBottomOf="@id/wind_speed_layout"
-            app:layout_constraintLeft_toLeftOf="@id/wind_speed_layout"
+            app:layout_constraintRight_toRightOf="@id/wind_speed_layout"
             android:orientation="vertical"
+            android:gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/sunpath_layout">
@@ -127,6 +128,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:id="@+id/wind_speed_layout"
+            android:gravity="right"
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -167,7 +169,8 @@
         </LinearLayout>
         <LinearLayout
             app:layout_constraintTop_toBottomOf="@id/sunpath_layout"
-            app:layout_constraintLeft_toLeftOf="@id/sunpath_layout"
+            app:layout_constraintRight_toRightOf="@id/sunpath_layout"
+            android:gravity="right"
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -188,7 +191,8 @@
         </LinearLayout>
         <LinearLayout
             app:layout_constraintTop_toBottomOf="@id/cloud_coverage_layout"
-            app:layout_constraintLeft_toLeftOf="@id/cloud_coverage_layout"
+            app:layout_constraintRight_toRightOf="@id/cloud_coverage_layout"
+            android:gravity="right"
             android:id="@+id/daylight_hour_layout"
             android:orientation="vertical"
             android:layout_width="wrap_content"

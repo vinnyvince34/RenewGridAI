@@ -263,6 +263,8 @@ public class WeatherData {
         private List<Double> uvIndexMax;
         @SerializedName("uv_index_clear_sky_max")
         private List<Double> uvIndexClearSkyMax;
+        @SerializedName("daylight_duration")
+        private List<Double> daylightDuration;
 
         public List<String> getTime() {
             return time;
@@ -286,6 +288,14 @@ public class WeatherData {
 
         public void setUvIndexClearSkyMax(List<Double> uvIndexClearSkyMax) {
             this.uvIndexClearSkyMax = uvIndexClearSkyMax;
+        }
+
+        public List<Double> getDaylightDuration() {
+            return daylightDuration;
+        }
+
+        public void setDaylightDuration(List<Double> daylightDuration) {
+            this.daylightDuration = daylightDuration;
         }
     }
 }
